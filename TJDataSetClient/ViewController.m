@@ -35,12 +35,9 @@
 }
 
 - (void)loadData{
-    self.view.userInteractionEnabled=NO;
-    self.emptyDataSet.state = DataSetLoading;
+    self.emptyDataSet.state = loadingState;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        self.view.userInteractionEnabled=YES;
-        self.emptyDataSet.state = DataSetFailureLoad;
+        self.emptyDataSet.state = failureLoadState;
 
     });
 

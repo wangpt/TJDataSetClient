@@ -9,16 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <UIScrollView+EmptyDataSet.h>
 
-typedef NS_ENUM(NSInteger, DataSetState)
+typedef NS_ENUM(NSInteger, NetWorkingState)
 {
-    DataSetLoading,//网络加载
-    DataSetFailureLoad,//网络返回失败 code
-    DataSetNoData,//网络加载无数据
-    DataSetNetWorkingError,//网络请求错误
-    DataSetEmptyView//空白页
+    loadingState,//网络加载
+    failureLoadState,//网络返回失败 code
+    noDataState,//网络加载无数据
+    netWorkingErrorState,//网络请求错误
+    emptyViewState,//空白页
+    
+    
 };
 @interface TJDataSetClient : NSObject<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-@property (nonatomic, assign) DataSetState state;
+@property (nonatomic, assign) NetWorkingState state;
 @property (nonatomic, copy) void (^reloading)();
 @property (nonatomic, copy) NSString *respondString;     //自定义的加载结果提示语
 @property (nonatomic, assign) BOOL isNotShowPrompting;          //是否显示加载中的等待提醒

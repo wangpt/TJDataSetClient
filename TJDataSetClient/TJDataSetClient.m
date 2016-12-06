@@ -21,9 +21,9 @@
     }
     return self;
 }
-- (void)setState:(DataSetState)state{
+- (void)setState:(NetWorkingState)state{
     _state = state;
-    if (state==DataSetNetWorkingError) {
+    if (state==netWorkingErrorState) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3  * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.emptyView reloadEmptyDataSet];
         });
@@ -46,13 +46,13 @@
  */
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if ( _state == DataSetNoData || _state == DataSetFailureLoad) {
+    if ( _state == noDataState || _state == failureLoadState) {
         return _emptyDefaultImage?_emptyDefaultImage:[UIImage imageNamed:@"TJDataSetClient.bundle/page_icon_empty"];
-    } else if ( _state == DataSetNetWorkingError) {
+    } else if ( _state == netWorkingErrorState) {
         return [UIImage imageNamed:@"TJDataSetClient.bundle/page_icon_network"];
-    } else if (_state == DataSetEmptyView){
+    } else if (_state == emptyViewState){
         return [UIImage new];
-    }else if (_state ==DataSetLoading){
+    }else if (_state ==loadingState){
         return [UIImage imageNamed:@"TJDataSetClient.bundle/page_icon_loading"];
     }
     return nil;
@@ -79,7 +79,7 @@
  */
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (_state == DataSetEmptyView) {
+    if (_state == emptyViewState) {
         return [UIView new];
     }
     return nil;
@@ -95,15 +95,15 @@
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *text;
-    if (_state == DataSetLoading) {
+    if (_state == loadingState) {
         text = @"";
-    } else if (_state == DataSetNoData) {
+    } else if (_state == noDataState) {
         text = _respondString?_respondString:@"没有相关数据";
-    } else if (_state == DataSetFailureLoad) {
+    } else if (_state == failureLoadState) {
         text = _respondString?_respondString:@"加载失败";
-    } else if (_state == DataSetNetWorkingError) {
+    } else if (_state == netWorkingErrorState) {
         text = @"网络未连接";
-    } else if (_state == DataSetEmptyView) {
+    } else if (_state == emptyViewState) {
         text = @"";
     }
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
@@ -126,7 +126,7 @@
  */
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    if (_state == DataSetFailureLoad || _state == DataSetNetWorkingError) {
+    if (_state == failureLoadState || _state == netWorkingErrorState) {
         NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:14],
                                      NSForegroundColorAttributeName : [UIColor lightGrayColor]
                                      };
@@ -178,7 +178,7 @@
 //图片是否要动画效果，默认NO
 - (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView
 {
-    if (_state == DataSetLoading) {
+    if (_state == loadingState) {
         return YES;
     }
     return NO;
