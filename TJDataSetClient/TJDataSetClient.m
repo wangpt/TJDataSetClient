@@ -29,8 +29,10 @@
         });
     }else{
         
-        [self.emptyView reloadEmptyDataSet];
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.emptyView reloadEmptyDataSet];
+            
+        });
     }
     
 }
